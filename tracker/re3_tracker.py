@@ -27,7 +27,7 @@ from constants import MAX_TRACK_LENGTH
 SPEED_OUTPUT = True
 
 class Re3Tracker(object):
-    def __init__(self, gpu_id=GPU_ID):
+    def __init__(self, checkpoint, gpu_id=GPU_ID):
         os.environ['CUDA_VISIBLE_DEVICES'] = str(gpu_id)
         basedir = os.path.dirname(__file__)
         tf.Graph().as_default()
@@ -39,7 +39,9 @@ class Re3Tracker(object):
                 prevLstmState=self.prevLstmState)
         self.sess = tf_util.Session()
         self.sess.run(tf.global_variables_initializer())
-        ckpt = tf.train.get_checkpoint_state(os.path.join(basedir, '..', LOG_DIR, 'checkpoints'))
+        #ckpt = tf.train.get_checkpoint_state(os.path.join(basedir, '..', LOG_DIR, 'checkpoints'))
+        ckpt = tf.train.get_checkpoint_state(checkpoint)
+        #print("benchode", ckpt)
         if ckpt is None:
             raise IOError(
                     ('Checkpoint model could not be found. '
@@ -121,6 +123,7 @@ class Re3Tracker(object):
             print('Current tracking speed:   %.3f FPS' % (1 / (end_time - start_time - image_read_time)))
             print('Current image read speed: %.3f FPS' % (1 / (image_read_time)))
             print('Mean tracking speed:      %.3f FPS\n' % (self.total_forward_count / max(.00001, self.time)))
+            print(type(outputBox))
         return outputBox
 
 
