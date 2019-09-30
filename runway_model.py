@@ -16,8 +16,6 @@ def setup(opts):
 
 inputs = {"input_image" : image}
 outputs = {"op_bbox" : array(image_bounding_box)}
-#global counter
-
 
 initialize = True
 @runway.command("track_object", inputs = inputs, outputs = outputs, description="Track Selected Object")
@@ -31,48 +29,15 @@ def track_object(tracker, inputs):
     if initialize:
        print("Object Tracker Intialized")
        boxToDraw = ip_bbox
-       print("ip_bbx",boxToDraw)
        outputBoxToDraw = tracker.track('webcam', img[:, :, ::-1], boxToDraw)
        initialize = False
     else:
         outputBoxToDraw = tracker.track('webcam', img[:, :, ::-1])
-    print("op_bbox", outputBoxToDraw)
+        
     normalize_bbox = [[outputBoxToDraw[0] / img.shape[1], outputBoxToDraw[1] / img.shape[0],
                       outputBoxToDraw[2] / img.shape[1], outputBoxToDraw[3] / img.shape[0]]]
 
     return {"op_bbox" : normalize_bbox}
 
 if __name__ == "__main__":
-    runway.run(model_options={"checkpoint" : "logs/checkpoints/"})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-""" Unnormalized Data Methods, can be removed once the final I/O format is decided.
-        
-        
-        
-        # print("nomralize", normalize_bbox)
-        # print(type(normalize_bbox[0]))
-        #return {"op_bbox" : normalize_bbox}
-    """
-
-
+    runway.run(model_options={"checkpoint" : "checkpoints/"})
