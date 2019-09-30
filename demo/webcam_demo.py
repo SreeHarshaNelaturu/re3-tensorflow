@@ -111,7 +111,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     RECORD = args.record
 
-    tracker = re3_tracker.Re3Tracker()
+    tracker = re3_tracker.Re3Tracker("./logs/checkpoints/")
 
     show_webcam(mirror=True)
 
