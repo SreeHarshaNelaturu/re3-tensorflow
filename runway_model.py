@@ -18,7 +18,7 @@ inputs = {"input_image" : image}
 outputs = {"op_bbox" : array(image_bounding_box)}
 
 initialize = True
-@runway.command("track_object", inputs = inputs, outputs = outputs, description="Track Selected Object")
+@runway.command("track_object", inputs = inputs, outputs = outputs, description="Tracks Selected Object")
 def track_object(tracker, inputs):
     global initialize
 
